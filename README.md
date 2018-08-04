@@ -1,6 +1,6 @@
 Strange Attractor
 =================
-Generate your own strange attractor.
+Generate your own strange attractor. More interesting examples can be found [here](https://softologyblog.wordpress.com/2017/03/04/2d-strange-attractors/).
 
 ## Clifford
 Clifford type of recurrence equations are coded with constructor:
