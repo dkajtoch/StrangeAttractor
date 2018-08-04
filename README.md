@@ -35,11 +35,11 @@ g++ -std=c++11 -O3 example.cpp -o run.exec
 
 # Examples
 Comparison between `8bit` and `16bit` image of Clifford attractor. Parameters: `a=-1.4, b=2.0, c=1.0, d=0.7`.
-| `8bit` | `16bit` |
-:-------:|:--------:
-<image src="./images/Clifford_a=-1.4_b=2.0_c=1.0_d=0.7/clifford8bit.png" width=800 /> | <image src="./images/Clifford_a=-1.4_b=2.0_c=1.0_d=0.7/clifford16bit.png" width=800 />
+
+<image src="./images/Clifford_a=-1.4_b=2.0_c=1.0_d=0.7/clifford8bit.png" width=800 /> 
+<image src="./images/Clifford_a=-1.4_b=2.0_c=1.0_d=0.7/clifford16bit.png" width=800 />
 
 Comparison between `8bit` and `16bit` image of Peter DeJong attractor. Parameters: `a=0.4, b=-2.4, c=1.7, d=-2.1`.
-| `8bit` | `16bit` |
-:-------:|:--------:
-<image src="./images/Peterdejong_a=0.4_b=-2.4_c=1.7_d=-2.1/peterdejong8bit.png" width=800 /> | <image src="./images/Peterdejong_a=0.4_b=-2.4_c=1.7_d=-2.1/peterdejong16bit.png" width=800 />
+
+<image src="./images/Peterdejong_a=0.4_b=-2.4_c=1.7_d=-2.1/peterdejong8bit.png" width=800 /> 
+<image src="./images/Peterdejong_a=0.4_b=-2.4_c=1.7_d=-2.1/peterdejong16bit.png" width=800 />
