@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <array>
+#include <map>
 #include <cmath>
 #include <chrono>
 #include <algorithm>
@@ -10,49 +11,23 @@
 #include <iostream>
 #include <string>
 #include <cstdint>
-#include <stdio.h>
-
-class ProgressIndicator {
-
-public:
-
-    ProgressIndicator(std::size_t start, std::size_t stop, std::size_t n)
-        : start{start}, stop{stop}, n{n}
-    {
-        step = static_cast<std::size_t>(
-            (static_cast<double>(stop)-static_cast<double>(start))/
-            static_cast<double>(n));
-    }
-
-    void update(std::size_t i) const
-    {
-        if( i % step == 0 )
-        {
-            double progress = static_cast<double>(i)/
-                (static_cast<double>(stop)-static_cast<double>(start))
-                 * 100.0;
-            printf("\r[=> %.2f %%", progress);
-            fflush(stdout);
-        }
-        if( i == stop )
-            printf("\r[=> 100.00 %%\n");
-    }
-
-    std::size_t start, stop, n;
-
-private:
-
-    std::size_t step;
-};
 
 class Attractor {
 
 public:
-    // constructor
+    // leaves domain boundary to default
     Attractor(int width, int height)
         : n_cols{width}, n_rows{height}
     {}
 
+   // constructor with user defined domain boundary
+   Attractor(int width, int height, std::map<std::string,double> edges)
+      : n_cols{width}, n_rows{height}, xmin{edges["xmin"]}, xmax{edges["xmax"]},
+        ymin{edges["ymin"]}, ymax{edges["ymax"]}
+   {}
+
+   // run iteration at least fixed number of seconds specified
+   // by the parameter 'seconds'
     void run(std::array<double,2> start, double seconds)
     {
         double x = start[0];
@@ -131,6 +106,9 @@ public:
             std::cout << "Unable to open the file!" << std::endl;
     }
 
+    // export data to a simple graphics in grayscale PGM
+    // precision: "8bit" - 0-255 coding values
+    //            "16bit" - 0-65535 coding value
     void pgm_export(std::string filename, std::string precision)
     {
         if( precision == std::string("8bit") )
@@ -203,11 +181,17 @@ protected:
     double ymax;
 };
 
+/* ----------------------------------- /
+/ Cliford attractor definition         /
+/ ----------------------------------- */
 class Clifford: public Attractor {
 
 public:
 
-   // constructor
+   // delete default constructor
+   Clifford() = delete;
+
+   // constructor with default domain boundary
    Clifford(std::array<double,4> param, int width, int height)
       : Attractor(width, height), a{param[0]}, b{param[1]},
         c{param[2]}, d{param[3]}
@@ -217,6 +201,13 @@ public:
       ymax = 1.0 + std::abs(d);
       ymin = -ymax;
    }
+
+   // constructor with user-defined domain boundary
+   Clifford(std::array<double,4> param, int width, int height,
+            std::map<std::string,double> edges)
+      : Attractor(width, height, edges), a{param[0]}, b{param[1]},
+        c{param[2]}, d{param[3]}
+   {}
 
    void iter(double& x, double& y)
    {
@@ -230,11 +221,16 @@ private:
    double a, b, c, d;
 };
 
+/* ----------------------------------- /
+/ Peter DeJong attractor definition    /
+/ ----------------------------------- */
 class PeterDeJong: public Attractor {
 
 public:
+   // delete default constructor
+   PeterDeJong() = delete;
 
-    // constructor
+    // constructor with default domain boundary
     PeterDeJong(std::array<double,4> param, int width, int height)
         : Attractor(width, height), a{param[0]}, b{param[1]},
           c{param[2]}, d{param[3]}
@@ -244,6 +240,13 @@ public:
          ymax = 2.0;
          ymin = -ymax;
     }
+
+    // constructor with user-defined domain boundary
+    PeterDeJong(std::array<double,4> param, int width, int height,
+                std::map<std::string,double> edges)
+        : Attractor(width, height, edges), a{param[0]}, b{param[1]},
+          c{param[2]}, d{param[3]}
+   {}
 
     void iter(double& x, double& y)
     {
