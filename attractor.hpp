@@ -260,4 +260,42 @@ public:
     double a, b, c, d;
 };
 
+/* ----------------------------------- /
+/ Bedhead attractor definition         /
+/ ----------------------------------- */
+class Bedhead: public Attractor {
+
+public:
+
+   // default constructor
+   Bedhead() = delete;
+
+   // default domain boundary (loosely defined)
+   Bedhead(std::array<double,2> param, int width, int height)
+      : Attractor(width, height), a{param[0]}, b{param[1]}
+   {
+      xmin = -4.0;
+      xmax = 4.0;
+      ymin = -4.0;
+      ymax = 4.0;
+   }
+
+   // uder defined domain
+   Bedhead(std::array<double,2> param, int width, int height,
+      std::map<std::string, double> edges)
+      : Attractor(width, height, edges), a{param[0]}, b{param[1]}
+   {}
+
+   void iter(double& x, double& y)
+   {
+      double xx = x;
+      x = std::sin( x * y / b) * y + std::cos( a * x - y );
+      y = xx + std::sin( y ) / b;
+   }
+
+private:
+
+   double a, b;
+};
+
 #endif
